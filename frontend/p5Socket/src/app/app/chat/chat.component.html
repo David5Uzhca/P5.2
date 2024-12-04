@@ -1,0 +1,34 @@
+<div class="chat-container" [ngClass]="{ joined: joined }">
+  <div *ngIf="!joined" class="join-form">
+    <h2>Bienvenido al Chat</h2>
+    <input [(ngModel)]="username" placeholder="Ingresa tu nombre" />
+    <button (click)="joinChat()">Unirse al Chat</button>
+  </div>
+
+  <div class="chat-box">
+    <div class="chat-header">Chat UPS</div>
+    <div class="messages">
+      <div
+        *ngFor="let message of messages"
+        class="message"
+        [ngClass]="{
+          user: message.user === username,
+          other: message.user !== username && message.user !== 'Sistema',
+          system: message.user === 'Sistema'
+        }"
+      >
+        <strong *ngIf="message.user !== 'Sistema'">{{ message.user }}:</strong>
+        {{ message.text }}
+      </div>
+    </div>
+    <div class="chat-input">
+      <input
+        type="text"
+        [(ngModel)]="message"
+        (keyup.enter)="sendMessage()"
+        placeholder="Escribe un mensaje..."
+      />
+      <button (click)="sendMessage()">Enviar</button>
+    </div>
+  </div>
+</div>
